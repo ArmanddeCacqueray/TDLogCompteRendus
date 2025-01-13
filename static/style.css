@@ -1,153 +1,74 @@
-:root {
-  --body-background-color: #f5f6f8;
-  --main-background-color: #ffffff;
-  --main-color: #2a303b;
-  --max-body-width: 700px;
-  --border-color: #cccccc;
-  --secondary-color: #fff6d3;
-  --loader-bullet-size: 6px;
+/* Conteneur principal du chat */
+#chat-container {
+    width: 80%;
+    max-width: 800px;
+    height: 500px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+/* Messages de chat */
+.chat-message {
+    display: flex;
+    align-items: flex-start;
+    margin: 10px 0;
 }
 
-body {
-  background-color: var(--body-background-color);
-  padding: 0;
-  margin: 0;
-  font-family: sans-serif;
+/* Avatar */
+.chat-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #007BFF;
+    object-fit: cover;
 }
 
-.main-container {
-  max-width: var(--max-body-width);
-  min-height: 100vh;
-  background-color: var(--main-background-color);
-  color: var(--main-color);
-  padding: 50px;
-  margin: 0 auto;
+/* Texte du message */
+.chat-text {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 70%;
+    font-size: 14px;
+    line-height: 1.4;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    position: relative;
 }
 
-.header {
-  text-align: center;
+/* Nom du bot en gras */
+.chat-text strong {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #ffdd57;
 }
 
-.header-title {
-  margin-top: 0;
+/* Styles alternés pour bots */
+.chat-message:nth-child(odd) .chat-text {
+    background-color: #6c757d;
 }
 
-.messages-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 30px;
+/* Animation d'apparition des messages */
+.chat-message {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
-.message {
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 10px 15px;
-}
-
-.message-human {
-  background-color: var(--secondary-color);
-}
-
-.prompt-container {
-  position: fixed;
-  bottom: 0px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: var(--max-body-width);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: var(--main-background-color);
-  padding: 20px;
-  border-top: 1px solid var(--border-color);
-}
-
-.prompt-label {
-  font-weight: bold;
-}
-
-.prompt-input {
-  flex-grow: 1;
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 5px;
-}
-
-.button {
-  border: 1px solid var(--border-color);
-  padding: 5px;
-  border-radius: 5px;
-  background-color: var(--main-background-color);
-}
-
-.button:hover,
-.button:active {
-  background-color: var(--body-background-color);
-  cursor: pointer;
-}
-
-.hidden {
-  display: none;
-}
-
-/* Loader code taken from https://loading.io/css/ */
-.loader {
-  display: inline-block;
-  position: relative;
-  width: 80px;
-  height: var(--loader-bullet-size);
-}
-.loader div {
-  position: absolute;
-  top: 0;
-  width: var(--loader-bullet-size);
-  height: var(--loader-bullet-size);
-  border-radius: 50%;
-  background-color: var(--main-color);
-  animation-timing-function: cubic-bezier(0, 1, 1, 0);
-}
-.loader div:nth-child(1) {
-  left: calc(var(--loader-bullet-size) * 0.5);
-  animation: loader1 0.6s infinite;
-}
-.loader div:nth-child(2) {
-  left: calc(var(--loader-bullet-size) * 0.5);
-  animation: loader2 0.6s infinite;
-}
-.loader div:nth-child(3) {
-  left: calc(var(--loader-bullet-size) * 2.5);
-  animation: loader2 0.6s infinite;
-}
-.loader div:nth-child(4) {
-  left: calc(var(--loader-bullet-size) * 4);
-  animation: loader3 0.6s infinite;
-}
-@keyframes loader1 {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-@keyframes loader3 {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-}
-@keyframes loader2 {
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(calc(var(--loader-bullet-size) * 2), 0);
-  }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
