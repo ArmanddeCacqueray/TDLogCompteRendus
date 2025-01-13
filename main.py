@@ -140,3 +140,42 @@ compte_rendu = generer_compte_rendu(transcribe_video("WIN_20241125_16_02_40_Pro.
 if compte_rendu:
     print("\nCompte Rendu de la Réunion :\n")
     print(compte_rendu)
+
+###################################################################################
+#####################################################################################
+def generate_scenario(transcription_path, model_path, output_js_path):
+    print("Lecture des fichiers...")
+    transcription = read_txt(transcription_path)
+    model = read_pdf(model_path)
+
+    print("Génération du scénario avec GPT...")
+    message_history = [
+        {"role": "system", "content": "Tu es un assistant qui génère des dialogues interactifs à partir d'une réunion."},
+        {"role": "user", "content": f"Voici le modèle de compte rendu : {model}"},
+        {"role": "user", "content": f"Voici la transcription de la réunion : {transcription}"},
+        {"role": "user", "content": "Génère un scénario animé en format JSON, où chaque bot (bot1, bot2, etc.) représente un intervenant."},
+    ]
+
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=message_history, max_tokens=1500, temperature=0.7
+    )
+    scenario = response.choices[0].message["content"]
+
+    print("Sauvegarde du scénario...")
+    with open(output_js_path, "w", encoding="utf-8") as js_file:
+        js_file.write(f"const meetingSimulation = {scenario};")
+    print(f"Scénario sauvegardé dans {output_js_path}")
+
+# Automatiser tout
+def automate(video_path, model_path, output_js_path):
+    #audio_path = video_path.replace(".mp4", ".mp3")
+    #transcription_path = transcribe_video(video_path, audio_path)
+    generate_scenario("transcription.txt", model_path, output_js_path)
+
+# Exemple d'utilisation
+automate(
+    video_path="reunion.mp4",
+    model_path="modele_compte_rendu.pdf",
+    output_js_path="static/js/meetingSimulation.js"
+)
+
