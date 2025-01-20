@@ -194,7 +194,7 @@ def compterendu():
     print(f"resume sauvegardée dans {text_file_path}")
     return summary
 ################################################
-def compterendu_anime():
+def compterendu_anime():  #utiliser index_anime
     model = os.path.join(os.path.dirname(__file__), "modele_animation_js.txt")
     document = read_pdf(model)
     chunks = split_text(document)
@@ -247,8 +247,31 @@ window.onload = () => {
     print(f"Scénario sauvegardé dans {output_js_path}")
 
 ###############################################
-def compterendu_dataset():
+def compterendu_basededonnnee():
+    #with open(filename, 'r', encoding='utf-8', errors='ignore') as f:
+    #    transcription = f.read()
+        # Appel à l'API OpenAI pour générer le résumé
+    message_history = []
+    filename = os.path.join(os.path.dirname(__file__), "filename.pdf")
+    document = read_text(filename)
+    chunks = split_text(document)
+    filename2 = os.path.join(os.path.dirname(__file__), "transcription.txt")
+    document2 = read_txt(filename2)
+    chunks2 = split_text(document2)
+    message_history.append({"role": "user", "content": chunks[0]})
+    message_history.append({"role": "user", "content": chunks2[0]})
+    message_history.append({"role": "user",
+                                "content": "le premir fichier est un modele de compte rendu de réunion. Le deuxième est supposé être une transcription de réunion (si ce n'est pas le cas, faites au mieux comme si c'en était une). Veuillez faire un compte rendu de la réunion en utilisant le modèle. Commencez votre message par un résumé en une phrase courte."})
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=message_history, max_tokens=450
+    )
 
+    summary = response.choices[0].message['content']
+    text_file_path = filename2.replace('.txt', '_resume.txt')
+    with open(text_file_path, 'w') as text_file:
+        text_file.write(summary)
+    print(f"resume sauvegardée dans {text_file_path}")
+    return summary
 ##############################################
 
     
