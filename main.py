@@ -273,9 +273,7 @@ def compterendu_basededonnnee():
     print(f"resume sauvegardée dans {text_file_path}")
     return summary
 ##############################################
-
     
-
 def traiter_video():
     video_dir = os.path.join(os.getcwd(), 'app', 'static', 'uploads')
     fichiers = os.listdir(video_dir)
