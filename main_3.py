@@ -106,7 +106,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return render_template("index.html")
+    return render_template("index_conversation.html")
 
 
 @app.route("/prompt", methods=["POST", "GET"])
