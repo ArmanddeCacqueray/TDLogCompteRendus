@@ -52,34 +52,3 @@ const meetingScenario = [
         message: "Non, ce n'est pas la puissance du vent qui détermine le nombre d'éoliennes, mais leur puissance unitaire. Par exemple, pour un parc de 1000 mégawatts avec des éoliennes de 20 mégawatts, il faudra 50 éoliennes."
     }
 ];
-
-// Fonction pour afficher les messages dans un chat simulé
-function displayScenario(scenario) {
-    const chatContainer = document.getElementById('chat-container');
-
-    scenario.forEach((entry, index) => {
-        setTimeout(() => {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('chat-message');
-
-            const avatarImg = document.createElement('img');
-            avatarImg.src = entry.avatar;
-            avatarImg.alt = `${entry.bot} avatar`;
-            avatarImg.classList.add('chat-avatar');
-
-            const textDiv = document.createElement('div');
-            textDiv.classList.add('chat-text');
-            textDiv.innerHTML = `<strong>${entry.bot}:</strong> ${entry.message}`;
-
-            messageDiv.appendChild(avatarImg);
-            messageDiv.appendChild(textDiv);
-            chatContainer.appendChild(messageDiv);
-            chatContainer.scrollTop = chatContainer.scrollHeight;
-        }, index * 3000); // Affiche chaque message avec un délai de 3 secondes
-    });
-}
-
-// Appeler la fonction pour lancer le scénario
-window.onload = () => {
-    displayScenario(meetingScenario);
-};
