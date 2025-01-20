@@ -215,6 +215,7 @@ def compterendu_anime():
     scenario = response.choices[0].message["content"]
 
     print("Sauvegarde du scénario...")
+    output_js_path=static/prompt_anime.js   #creation d'un nouveau prompt.js
     with open(output_js_path, "w", encoding="utf-8") as js_file:
         js_file.write(scenario)
         js_file.write('''// Fonction pour afficher les messages dans un chat simulé
