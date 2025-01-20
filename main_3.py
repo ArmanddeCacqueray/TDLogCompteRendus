@@ -118,30 +118,10 @@ def prompt():
         return s
 
 
-@app.route("/question", methods=["GET"])
-def question():
-    ans = gpt3_completion("pose une question sur le texte")
-    s = jsonify({"answer": ans})
-    return s
-
-
-@app.route("/answer", methods=["POST", "GET"])
-def answer():
-    prompt = request.form["prompt"]
-    prompt = (
-        prompt
-        + "\n"
-        + "Est-ce la bonne réponse ? Réponds par vrai ou faux. Si c'est Faux, donne la bonne réponse."
-    )
-    ans = gpt3_completion(prompt)
-    s = jsonify({"answer": ans})
-    return s
-
-
 @app.route("/perro", methods=["POST", "GET"])
 def perro():
     ans = gpt3_completion(
-        "Incarnes Jean Rodolphe Perronnet (utilises les informations de wikipedia), présentes toi très rapidement et propose ton aide"
+        "Tu es un assistant gpt. Présente toi rapidement et propose ton aide, pour parler de la reunion"
     )
     s = jsonify({"answer": ans})
     return s
