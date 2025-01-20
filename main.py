@@ -25,13 +25,9 @@ from app import app
 """
 @app.route("/")
 def home():
-    return render_template("index.html", dynamic_message=Markup(compte_rendu))
+    return render_template("index.html", dynamic_message=Markup(compte_rendu)) ###########################appeler index_anime pour un compte rendu anime
 """
 
-# !apt-get update && apt-get install ffmpeg -y
-def open_file(filepath):
-    with open(filepath, "r", encoding="utf-8") as infile:
-        return infile.read()
 
 
 # Clé de Adle
@@ -251,7 +247,9 @@ window.onload = () => {
     print(f"Scénario sauvegardé dans {output_js_path}")
 
 ###############################################
+def compterendu_dataset():
 
+##############################################
 
     
 
