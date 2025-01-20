@@ -25,7 +25,7 @@ from app import app
 """
 @app.route("/")
 def home():
-    return render_template("index.html", dynamic_message=Markup(compte_rendu)) ###########################appeler index_anime pour un compte rendu anime
+    return render_template("index_anime.html", dynamic_message=Markup(compte_rendu)) ###########################appeler index_anime pour un compte rendu anime
 """
 
 
