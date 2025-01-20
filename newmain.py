@@ -199,22 +199,54 @@ def compterendu():
     return summary
 ################################################
 def compterendu_anime():
-    transcription = read_txt(transcription_path)
-    model = read_pdf(model_path)
-    message_history = [
-        {"role": "system", "content": "Tu es un assistant qui génère des dialogues interactifs à partir d'une réunion."},
-        {"role": "user", "content": f"Voici le modèle de compte rendu : {model}"},
-        {"role": "user", "content": f"Voici la transcription de la réunion : {transcription}"},
-        {"role": "user", "content": "Génère un scénario animé en format JSON, où chaque bot (bot1, bot2, etc.) représente un intervenant."},
-    ]
+    model = os.path.join(os.path.dirname(__file__), "modele_animation_js.txt")
+    document = read_pdf(model)
+    chunks = split_text(document)
+    filename2 = os.path.join(os.path.dirname(__file__), "transcription.txt")
+    document2 = read_txt(filename2)
+    chunks2 = split_text(document2)
+    message_history.append({"role": "user", "content": chunks[0]})
+    message_history.append({"role": "user", "content": chunks2[0]})
+    message_history.append({"role": "user",
+                                "content": "Génère un scénario animé en format JSON, où chaque bot (bot1, bot2, etc.) représente un intervenant en respectant le modele que je t'ai donné"})
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo", messages=message_history, max_tokens=1500, temperature=0.7
+        model="gpt-3.5-turbo", messages=message_history, max_tokens=450
     )
     scenario = response.choices[0].message["content"]
 
     print("Sauvegarde du scénario...")
     with open(output_js_path, "w", encoding="utf-8") as js_file:
-        js_file.write(f"const meetingSimulation = {scenario};")
+        js_file.write(scenario)
+        js_file.write('''// Fonction pour afficher les messages dans un chat simulé
+function displayScenario(scenario) {
+    const chatContainer = document.getElementById('chat-container');
+
+    scenario.forEach((entry, index) => {
+        setTimeout(() => {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message');
+
+            const avatarImg = document.createElement('img');
+            avatarImg.src = entry.avatar;
+            avatarImg.alt = `${entry.bot} avatar`;
+            avatarImg.classList.add('chat-avatar');
+
+            const textDiv = document.createElement('div');
+            textDiv.classList.add('chat-text');
+            textDiv.innerHTML = `<strong>${entry.bot}:</strong> ${entry.message}`;
+
+            messageDiv.appendChild(avatarImg);
+            messageDiv.appendChild(textDiv);
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, index * 3000); // Affiche chaque message avec un délai de 3 secondes
+    });
+}
+
+// Appeler la fonction pour lancer le scénario
+window.onload = () => {
+    displayScenario(meetingScenario);
+};''')
     print(f"Scénario sauvegardé dans {output_js_path}")
 
 ###############################################
